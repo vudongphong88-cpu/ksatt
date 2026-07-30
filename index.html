@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khảo Sát Thông Tin Người Dùng</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 550px; background: white; padding: 30px; margin: 20px auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #4A148C; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
+        input[type="text"], input[type="date"], input[type="number"], textarea { 
+            width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px;
+        }
+        input:focus, textarea:focus { border-color: #4A148C; outline: none; box-shadow: 0 0 5px rgba(106, 27, 154, 0.2); }
+        button { width: 100%; padding: 12px; background: #6A1B9A; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #4A148C; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Khảo Sát Thông Tin</h2>
+    <form id="surveyForm">
+        
+        <div class="form-group">
+            <label for="fullName">Họ tên của bạn là gì?</label>
+            <input type="text" id="fullName" required placeholder="Nhập đầy đủ họ tên...">
+        </div>
+
+        <div class="form-group">
+            <label for="solarBirthday">Ngày sinh dương lịch của bạn là gì?</label>
+            <input type="date" id="solarBirthday" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Độ tuổi của bạn là gì?</label>
+            <input type="number" id="age" min="1" max="120" required placeholder="Nhập tuổi của bạn...">
+        </div>
+
+        <div class="form-group">
+            <label for="lunarBirthday">Ngày sinh âm lịch của bạn là gì?</label>
+            <input type="text" id="lunarBirthday" required placeholder="Ví dụ: 15/08 (Nhâm Ngọ)...">
+        </div>
+
+        <div class="form-group">
+            <label for="favoriteColor">Màu sắc yêu thích của bạn là gì?</label>
+            <input type="text" id="favoriteColor" required placeholder="Ví dụ: Xanh dương, Đỏ...">
+        </div>
+
+        <div class="form-group">
+            <label for="favoriteFood">Món ăn yêu thích của bạn là gì?</label>
+            <input type="text" id="favoriteFood" required placeholder="Ví dụ: Bún chả, Phở...">
+        </div>
+
+        <div class="form-group">
+            <label for="hobbies">Sở thích của bạn là gì?</label>
+            <textarea id="hobbies" rows="3" required placeholder="Chia sẻ một chút về sở thích của bạn..."></textarea>
+        </div>
+
+        <button type="submit">Gửi Khảo Sát</button>
+    </form>
+</div>
+
+<script>
+    // ⚠️ HÃY THAY LINK APPS SCRIPT MỚI CỦA BẠN VÀO ĐÂY
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylZEL3X4hirMzxcxLfb31PNHYptjDIMBtmwNhklgIiFyNBPYRt2eoJRmKL-yCiMd-Htg/exec";
+
+    document.getElementById('surveyForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Thu thập chính xác dữ liệu từ các ô nhập liệu
+        const data = {
+            fullName: document.getElementById('fullName').value,
+            solarBirthday: document.getElementById('solarBirthday').value,
+            age: document.getElementById('age').value,
+            lunarBirthday: document.getElementById('lunarBirthday').value,
+            favoriteColor: document.getElementById('favoriteColor').value,
+            favoriteFood: document.getElementById('favoriteFood').value,
+            hobbies: document.getElementById('hobbies').value
+        };
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(response => {
+            alert('Cảm ơn bạn đã gửi khảo sát thành công!');
+            document.getElementById('surveyForm').reset();
+        })
+        .catch(error => {
+            alert('Có lỗi xảy ra, vui lòng kiểm tra lại cấu hình.');
+            console.error('Error:', error);
+        });
+    });
+</script>
+</body>
+</html>
